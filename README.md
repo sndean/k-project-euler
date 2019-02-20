@@ -5,19 +5,17 @@
 
 
 
-## About
+## Short about and set up
 
-Solutions **and explanations** to the first 100 Project Euler problems in K (K6 dialect).
+Solutions **and explanations** to the first 100 Project Euler problems in K (primarily the K6 dialect, Kona (a K3/K4 dialect),  as well as K4 and Q.
 
-To run the K6 binary
+If you can do this, you're set up:
 
     chmod +x k
-    
-Then
-
     rlwrap -r noah /Users/snd/k
-    
     2016.08.09 (c) arthur whitney
+     +/1 2 3
+    6
 
 
 
@@ -57,7 +55,7 @@ Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona'
 
 
 
-
+****
 
 
 
