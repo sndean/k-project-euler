@@ -35,13 +35,47 @@ Mostly because it's more interesting to me than Kona and other K dialects, and b
 
 K6 can be downloaded by asking the language's author nicely for the binary.
 
+    chmod +x k
+    rlwrap -r noah /Users/snd/k
+    2016.08.09 (c) arthur whitney
+     +/1 2 3
+    6
+
 #### Kona
 
-Kona can be downloaded [here](https://github.com/kevinlawler/kona). Kona is an open source implementation of K, specifically tries to emulate k3, but includes some aspects of k4.
+Kona can be downloaded [here](https://github.com/kevinlawler/kona). Kona is an open source implementation of K, specifically tries to emulate K3, but includes some aspects of K4.
 
-#### k4 and Q
+    git clone https://github.com/kevinlawler/kona.git
+    cd kona
+    make
 
-Both k4/Q come with the download obtainable from the [Kx website](https://kx.com/download/).
+    rlwrap -r /Users/snd/kona/k
+    kona      \ for help. \\ to exit.
+
+      +/1 2 3
+    6
+
+#### K4 and Q
+
+Both K4/Q come with the download obtainable from the [Kx website](https://kx.com/download/).
+
+    MacBook-Air:~ snd$ q
+    KDB+ 3.6 2018.12.24 Copyright (C) 1993-2018 Kx Systems
+    m32/ 4()core 8192MB snd macbook-air.local 192.168.0.8 NONEXPIRE
+
+    Welcome to kdb+ 32bit edition
+    For support please see http://groups.google.com/d/forum/personal-kdbplus
+    Tutorials can be found at http://code.kx.com
+    To exit, type \\
+    To remove this startup msg, edit q.q
+    q)(+/)1 2 3
+    6
+
+    q)\
+      +/1 2 3
+    6
+
+(Note that you can access K4 from Q by doing a `\`)
 
 
 ### Motivation
