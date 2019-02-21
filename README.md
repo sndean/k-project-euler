@@ -11,7 +11,7 @@
 
 ## A short about and set up
 
-Solutions **and explanations** to the first 100 Project Euler problems in K (the K6 dialect, Kona (a K3/K4 dialect), as well as K4 and Q).
+Solutions **and explanations** to the first 100 Project Euler problems in K (the K6 dialect, Kona (a K3/K4 dialect), and K4).
 
 If you can do this, you're set up for using K6:
 
@@ -29,11 +29,11 @@ If you can do this, you're set up for using K6:
 
 ## Intro
 
-Here I'll go through as many Project Euler problems as I can with K (K6, especially), or at least up to problem 100. 
+Here I'll go through as many Project Euler problems as I can with K, or at least up to problem 100. 
 
 ### Why K6? 
 
-Mostly because it's more interesting to me than Kona, which has solutions to Project Euler Problems 1 - 100 already listed publicly. Here, in the case of K6 and K4 (and Q?), I won't have any way to cheat (other than in the few cases where Kona is also correct for K6).
+Mostly because it's more interesting to me than Kona, which has solutions to Project Euler Problems 1 - 100 already listed publicly. Here, in the case of K6 and K4, I won't have any way to cheat (other than in the few cases where Kona is also correct for K6).
 
 #### K6
 
@@ -59,9 +59,9 @@ Kona can be downloaded [here](https://github.com/kevinlawler/kona). Kona is an o
       +/1 2 3
     6
 
-#### K4 and Q
+#### K4
 
-Both K4/Q come with the download obtainable from the [Kx website](https://kx.com/download/).
+K4 comes with the download obtainable from the [Kx website](https://kx.com/download/).
 
     MacBook-Air:~ snd$ q
     KDB+ 3.6 2018.12.24 Copyright (C) 1993-2018 Kx Systems
@@ -84,12 +84,12 @@ Both K4/Q come with the download obtainable from the [Kx website](https://kx.com
 
 ### Motivation
 
-I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K/Q programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python").
+I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python").
 
 
 ### Acknowledgements
 
-Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, K4, and Q. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
+Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
 
 
 
@@ -206,40 +206,14 @@ Next, use each-right (`/:`) to include both 3 and 5. Then, add in where over (`&
 
 
 
+
+
+
 ## K6
 ```
 +/&|/~5 3!\:!1000
 ```
 
-
-
-
-## Q
-```{}
-  {(til x)mod y}[10] 3
-0 1 2 0 1 2 0 1 2 0
-```
-
-This uses `til` which enumerates numbers up to the input (10) and `mod` which does modulus.
-
-Next, take the `not`, `where`, and `sum` of those numbers:
-
-```{}
-  sum where not {(til x)mod y}[10] 3
-18
-```
-
-Now we can add in `5`, which requires some `each` and `any`:
-
-```{}
-  sum where any not {(til x)mod y}[10] each 3 5
-23
-```
-
-```{}
-  sum where any not {(til x)mod y}[1000] each 3 5
-233168
-```
 
 
 
