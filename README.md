@@ -11,7 +11,7 @@
 
 ## A short about and set up
 
-Solutions **and explanations** to the first 100 Project Euler problems in K (primarily the K6 dialect, but also Kona (a K3/K4 dialect),  as well as K4 and Q).
+Solutions **and explanations** to the first 100 Project Euler problems in K (the K6 dialect, Kona (a K3/K4 dialect), as well as K4 and Q).
 
 If you can do this, you're set up for using K6:
 
@@ -33,7 +33,7 @@ Here I'll go through as many Project Euler problems as I can with K (K6, especia
 
 ### Why K6? 
 
-Mostly because it's more interesting to me than Kona and other K dialects, which have solutions to Project Euler Problems 1 - 100 already listed publicly. Here, I won't have any way to cheat (other than in the few cases where K3/K4 is also correct for K6).
+Mostly because it's more interesting to me than Kona, which has solutions to Project Euler Problems 1 - 100 already listed publicly. Here, in the case of K6 and K4 (and Q?), I won't have any way to cheat (other than in the few cases where Kona is also correct for K6).
 
 #### K6
 
@@ -89,7 +89,7 @@ I'm posting answers here not because it's valuable for me to have a place to pos
 
 ### Acknowledgements
 
-Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6 (and where I have time, for Kona, K4, and Q). ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
+Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, K4, and Q. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
 
 
 
@@ -102,6 +102,11 @@ Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona'
 > If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 
 > Find the sum of all the multiples of 3 or 5 below 1000.
+
+
+
+
+
 
 One way to do this is to find the `mod` of the list of numbers < 10
 
@@ -158,7 +163,7 @@ All that's left is the requirement to include 5. For this we have to go back a f
 
 
 
-## k4
+## K4
 
 First, just like in Kona, we can obtain the `mod` of `!10` and `3`. But in order for this to not yield any errors, it appears we have to pass this through a function (`mod:{x-y*x div y}`). If you don't, annoyingly, you'll see this error:
 
@@ -201,6 +206,12 @@ Next, use each-right (`/:`) to include both 3 and 5. Then, add in where over (`&
 
 
 
+## K6
+```
++/&|/~5 3!\:!1000
+```
+
+
 
 
 ## Q
@@ -229,6 +240,9 @@ Now we can add in `5`, which requires some `each` and `any`:
   sum where any not {(til x)mod y}[1000] each 3 5
 233168
 ```
+
+
+
 
 
 
