@@ -2,7 +2,7 @@
 
 ***
 
-*WARNING - This contains "spoilers" (a.k.a. answers to [Project Euler problems](https://projecteuler.net/)). Close this if you wish to solve the problems yourself. Beyond that, this contains some of the thought process behind each problem, which too may be considered spoilers.*
+*WARNING - This contains "spoilers" (a.k.a. answers to [Project Euler problems](https://projecteuler.net/)). Close this if you wish to solve the problems yourself. Beyond that, this contains some of the thought process behind each problem, which too may be something you wish to avoid.*
 
 
 ***
@@ -82,14 +82,9 @@ K4 comes with the download obtainable from the [Kx website](https://kx.com/downl
 (Note that you can access K4 from Q by doing a `\`)
 
 
-### Motivation
+***
 
-I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python").
-
-
-### Acknowledgements
-
-Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
+I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python"). Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
 
 
 
