@@ -7,43 +7,8 @@
 
 ***
 
+Solutions **and explanations** to the first 100 Project Euler problems in K (Kona (a K3/K4 dialect), and the K6 dialect and K4 whenever I can).
 
-
-## A short about and set up
-
-Solutions **and explanations** to the first 100 Project Euler problems in K (the K6 dialect, Kona (a K3/K4 dialect), and K4).
-
-If you can do this, you're set up for using K6:
-
-    chmod +x k
-    rlwrap -r noah /Users/snd/k
-    2016.08.09 (c) arthur whitney
-     +/1 2 3
-    6
-
-
-
-
-
-
-
-## Intro
-
-Here I'll go through as many Project Euler problems as I can with K, or at least up to problem 100. 
-
-### Why K6? 
-
-Mostly because it's more interesting to me than Kona, which has solutions to Project Euler Problems 1 - 100 already listed publicly. Here, in the case of K6 and K4, I won't have any way to cheat (other than in the few cases where Kona is also correct for K6).
-
-#### K6
-
-K6 can be downloaded by asking the language's author nicely for the binary.
-
-    chmod +x k
-    rlwrap -r noah /Users/snd/k
-    2016.08.09 (c) arthur whitney
-     +/1 2 3
-    6
 
 #### Kona
 
@@ -58,6 +23,18 @@ Kona can be downloaded [here](https://github.com/kevinlawler/kona). Kona is an o
 
       +/1 2 3
     6
+
+
+#### K6
+
+K6 can be downloaded by asking the language's author nicely for the binary.
+
+    chmod +x k
+    rlwrap -r noah /Users/snd/k
+    2016.08.09 (c) arthur whitney
+     +/1 2 3
+    6
+
 
 #### K4
 
@@ -84,7 +61,7 @@ K4 comes with the download obtainable from the [Kx website](https://kx.com/downl
 
 ***
 
-I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python"). Some of the code comes from ngn's gitlab [page](https://github.com/ngn/k), Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of K6, Kona, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
+I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this post and have unwanted exposure to answers (it would seem different to me if this were "Project Euler with Python"). Some of the code comes from Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), ngn's gitlab [page](https://github.com/ngn/k), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of Kona, K6, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
 
 
 
