@@ -10,14 +10,23 @@
 
 ## Kona
 
-First we have to find a way to obtain the Fibonacci sequence. Let's see how we obtain the first 10 terms:
+First we have to find a way to obtain the Fibonacci sequence. Let's see how to obtain the first 10 terms
 
 ```
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
 ```
 
-So let's break that down. We need to be able to sum two numbers and we know the sequence we want starts with `1, 2`:
+To break that down, we need to be able to sum two numbers and we know the sequence we want starts with `1, 2`. First, obtain the last two numbers
+
+```
+  {-2#x} 1 2 3
+2 3
+  {-2#x} 4 5 6
+5 6
+```
+
+Then `+/`
 
 ```
   {+/-2#x} 1 2
@@ -30,7 +39,7 @@ So let's break that down. We need to be able to sum two numbers and we know the 
 13
 ```
 
-So that seems to work correctly. Next, we need to join the result to the input. We can do that using join (`,`):
+So that seems to work correctly. Next, we need to join the result to the input. We can do that using join (`,`)
 
 ```
   {x,+/-2#x} 5 8
@@ -42,9 +51,11 @@ Next we want to apply this `n` times. For this, we can use the over monad `/` wh
 ```{}
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
+  10 {x,+/-2#x}/1
+1 2 3 5 8 13 21 34 55 89 144
 ```
 
-Now that we have that, the rest is relatively simple:
+Now that we have that, the rest is relatively simple.
 
 We need the term that's the term immediately prior to that which is over 4 million. First, I should point out that in Kona you can abbrevate large numbers with scientific notation, so `4000000` becomes `4e6`.
 
@@ -53,7 +64,17 @@ We need the term that's the term immediately prior to that which is over 4 milli
 1
 ```
 
-Next we want all the terms under the one that's `>4e6`:
+Next we want all the terms under the one that's `>4e6`.
+You can make provide a binary "`1` = keep going, `0` = stop" with `>`. 
+
+```  
+  {55>+/-2#x} 1 2 3 5 8 13
+1
+  {55>+/-2#x} 1 2 3 5 8 13 21
+1
+  {55>+/-2#x} 1 2 3 5 8 13 21 34
+0
+```
 
 ```{}
   (4e6>+/-2#){x,+/-2#x}/1
@@ -62,31 +83,45 @@ Next we want all the terms under the one that's `>4e6`:
 514229 832040 1346269 2178309 3524578
 ```
 
-Now let's find the even-valued terms:
+Now let's find the even-valued terms. Use modulus `!` and not `~`, where if 1 is left after mod 2, it's odd, so *don't* take that number.
+
+```
+  {~x!2} 10
+1
+  {~x!2} 11
+0
+```
+
+Then obtain the index of the list with where `&`.
 
 ```{}
   {~x!2} (4e6>+/-2#){x,+/-2#x}/1
 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1
   {&~x!2} (4e6>+/-2#){x,+/-2#x}/1
 1 4 7 10 13 16 19 22 25 28 31
+```
+
+And find the corresponding spot in `x` with at `@`.
+
+```
+
   {x@&~x!2} (4e6>+/-2#){x,+/-2#x}/1
 2 8 34 144 610 2584 10946 46368 196418 832040 3524578
 ```
 
-The only interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples:
+The main interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples.
 
 ```{}
-  {x@ 1 3} 4 2 1 9
-2 9
-  {x@&x=3} 4 2 1 9
-!0
+  {x@1} 4 2 1 9
+2
+  {&x=2} 4 2 1 9
+,1
   {x@&x=2} 4 2 1 9
 ,2
 ```
 
-(Remember that Kona is 0 indexed.)
 
-Finally, all we have to do is sum (`+/`):
+Finally, all we have to do is sum (`+/`).
 
 ```{}
   +/{x@&~x!2}(4e6>+/-2#){x,+/-2#x}/1
