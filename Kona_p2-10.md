@@ -12,14 +12,14 @@
 
 First we have to find a way to obtain the Fibonacci sequence. Let's see how we obtain the first 10 terms:
 
-```{}
+```
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
 ```
 
 So let's break that down. We need to be able to sum two numbers and we know the sequence we want starts with `1, 2`:
 
-```{}
+```
   {+/-2#x} 1 2
 3
   {+/-2#x} 2 3
@@ -32,7 +32,7 @@ So let's break that down. We need to be able to sum two numbers and we know the 
 
 So that seems to work correctly. Next, we need to join the result to the input. We can do that using join (`,`):
 
-```{}
+```
   {x,+/-2#x} 5 8
 5 8 13
 ```
@@ -97,27 +97,6 @@ Finally, all we have to do is sum (`+/`):
 
 
 
-## k4
-
-The k4 code is identical to the one for Kona, except, again the `mod:{x-y*x div y}` function appears to be needed:
-
-```{}
-mod:{x-y*x div y}
-  +/{x@&~x mod/ 2}(4e6>+/-2#){x,+/-2#x}/1
-4613732
-```
-
-
-
-
-## Q
-
-The Q code is easily translatable from the k4 code, where `sum`, `where`, and `not` are added as replacements:
-
-```{}
-  sum {x where not x mod/ 2}(4e6> sum -2#){x, sum -2#x}/1
-4613732
-```
 
 
 
@@ -200,30 +179,6 @@ or on one line:
 ```
 
 
-
-
-
-## k4
-
-### TODO
-
-```{}
-
-```
-
-
-## Q
-
-For Q, the hardest part is simply translating k code to the words of Q, which I used code from [Ryan Hamilton's Kdb+ Database Examples](https://github.com/timeseries/kdb/blob/master/qunit/math.q), a translation of `p` from earlier. After that, translating the rest was very simple:
-
-
-```{}
-  p:{$[x<4;enlist 2;r,1_where not any x#'not til each r:.z.s ceiling sqrt x]}
-  {max x where not 15 mod x} p 10000
-5
-  {max x where not 600851475143 mod x} p 10000
-6857
-```
 
 
 
@@ -363,63 +318,6 @@ Finally, let's remove the unnecessary parentheses and scale it up to 3-digit num
 It's a little slow, but it works.
 
 
-
-
-## k4
-
-The Kona answer works just fine in k4:
-
-```{}
-  |/b@&{x~|x}'$b:,/a*/:a:!1000
-906609
-```
-
-
-
-## Q
-
-Translating the Kona and k4 answer to Q had some hangups. First, the essential idea was identical and worked fine, including reversing and matching strings:
-
-```{}
-  "100" ~ reverse "100"
-0b
-  "101" ~ reverse "101"
-1b
-```
-
-However, whereas casting integers to strings in Kona and k4 creates a easy-to-work-with column vector, things work a bit differently when using `string`, meaning `raze` is needed:
-
-```{}
-  string a*/:(a:til 10)
-,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0"
-,"0" ,"1" ,"2" ,"3" ,"4" ,"5" ,"6" ,"7" ,"8" ,"9"
-,"0" ,"2" ,"4" ,"6" ,"8" "10" "12" "14" "16" "18"
-,"0" ,"3" ,"6" ,"9" "12" "15" "18" "21" "24" "27"
-,"0" ,"4" ,"8" "12" "16" "20" "24" "28" "32" "36"
-,"0" ,"5" "10" "15" "20" "25" "30" "35" "40" "45"
-,"0" ,"6" "12" "18" "24" "30" "36" "42" "48" "54"
-,"0" ,"7" "14" "21" "28" "35" "42" "49" "56" "63"
-,"0" ,"8" "16" "24" "32" "40" "48" "56" "64" "72"
-,"0" ,"9" "18" "27" "36" "45" "54" "63" "72" "81"
-
-
-  raze a*/:(a:til 1000)
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0..
-  string raze a*/:(a:til 1000)
-,"0"
-,"0"
-,"0"
-,"0"
-,"0"
-..
-```
-
-After that, the match and `reverse` function along with `where` and `max` are very straightforward 
-
-```{}
-  max b where {x ~ reverse x} each string b:raze a*/:(a:til 1000)
-906609
-```
 
 
 
@@ -627,22 +525,6 @@ In this function `{:[~x!2; x*2; 1;!x;]}`, the condition is `~x!2`, so if the inp
 
 
 
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
-
-
 
 
 
@@ -699,21 +581,6 @@ In this function `{:[~x!2; x*2; 1;!x;]}`, the condition is `~x!2`, so if the inp
   {_(_sqr+/x)-+/x^2}1+!100
 25164150
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
 
 
 
@@ -822,20 +689,6 @@ The [Sieve of Atkin](https://en.wikipedia.org/wiki/Sieve_of_Atkin) is supposeedl
 
 
 
-
-
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
--1+last{if[all 0<x[1]mod/:2+til floor[sqrt x 1]-1;x[0]+:1];x[1]+:1;x}/[{x[0]<10001};(0;2)]
-```
 
 
 
@@ -1018,18 +871,6 @@ There's probably a better way to implement it, but if you time the second versio
 
 
 
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
 
 
 
@@ -1084,24 +925,8 @@ There's probably a better way to implement it, but if you time the second versio
 ## Kona
 
 ```{}
-
+*/_*c@&1000=+/'c:b,'(_sqrt+/)'b*b:,/a,/:\:a:!500
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
-
 
 
 
@@ -1155,16 +980,3 @@ There's probably a better way to implement it, but if you time the second versio
 ```{}
 p:{2_&{:[x@y;x&@[1,-1_ z#(1_ y#1),0;y;:;1];x]}/[x#1;2_! __ceil _sqrt x;x]};+/p@_2e6	
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
