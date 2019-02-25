@@ -65,7 +65,21 @@ I'm posting answers here not because it's valuable for me to have a place to pos
 
 
 
+
+
+
+
+
+
+
 ***
+
+
+
+
+
+
+
 
 
 
@@ -80,15 +94,25 @@ I'm posting answers here not because it's valuable for me to have a place to pos
 
 
 
-One way to do this is to find the `mod` of the list of numbers < 10
+
 
 ## Kona
+
+First, find the modulus for the list of numbers < 10
+
+```
+  !10
+0 1 2 3 4 5 6 7 8 9
+```
+
+This is possibly immediately confusing since this uses both the monadic and dyadic `!`, enumerating numbers under 10, then finding the `mod` of those numbers (e.g., where `5!3` yields `2`). 
+
 ```{}
-  (!10)!/3
+  (!10)!3
 0 1 2 0 1 2 0 1 2 0
 ```
 
-This uses both the monadic and dyadic `!`, enumerating numbers under 10, then finding the `mod` of those numbers (e.g., where `5!3` yields `2`). 
+
 
 Next, take the numbers that multiples, (`mod` = 0):
 
@@ -100,14 +124,14 @@ Next, take the numbers that multiples, (`mod` = 0):
 Finally take those ones, map (`&`) them to the location in `!10`, and sum (`+/`):
 
 ```{}
-  &(~(!10)!/3)
+  &~(!10)!/3
 0 3 6 9
 
-  +/(&(~(!10)!/3))
+  +/&~(!10)!/3
 18
 ```
 
-All that's left is the requirement to include 5. For this we have to go back a few steps to add each (`:`):
+All that's left is the requirement to include 5 and then expand from `!10` to `!1000`. For this we have to go back a few steps to add each (`:`).
 
 ```{}
   ~(!10)!/:3 5
@@ -126,6 +150,13 @@ All that's left is the requirement to include 5. For this we have to go back a f
 
 ```{}
   +/&~&/(!1000)!/:3 5
+233168
+```
+
+Or with `1e3`
+
+```
+  +/&~&/(!1e3)!/:3 5
 233168
 ```
 
