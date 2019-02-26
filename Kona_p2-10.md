@@ -173,14 +173,15 @@ Finally, all we have to do is sum (`+/`).
 
 ## Kona
 
-Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf) has a solution that is sort of a hack that doesn't generalize well (e.g., doesn't work for 15), but it works for 600851475143:
+Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf) has a solution that is sort of a hack that doesn't generalize well (e.g., doesn't work for 15, 21, and many of others), but it works for 600851475143:
 
 
 ```{}
   |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})600851475143
 6857
-
   |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})15
+3
+  |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})21
 3
 ```
 
@@ -204,7 +205,7 @@ Using this large list, we can run mod eachright (`!/:`) of our test number again
 1 0 0 1 4 2 15 15 15 15 15 15 15 15 15 15 15 ...
 ```
 
-Next, put that in a function and add the not where at code that we used earlier in front:
+Next, put that in a function and add the not-where-at (`x@&~`) code that we used in Problem 2
 
 ```{}
   {x@&~15!/:x}p 10000
@@ -214,31 +215,32 @@ Next, put that in a function and add the not where at code that we used earlier 
 Finally, just take the highest value (`|/`):
 
 ```{}
-  {|/x@&~15!/:x}p 10000
+  |/{x@&~15!/:x}p 10000
 5
 ```
 
 And this solution is generalizable up to large values:
 
-```{}
+```
   p:{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]}
-  {|/x@&~600851475143!/:x}p 10000
+  |/{x@&~600851475143!/:x}p 10000
 6857
 ```
 
 or on one line:
 
 ```{}
-  {|/x@&~600851475143!/:x}{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]} 10000
+  |/{x@&~600851475143!/:x}{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]} 10000
 6857
 ```
 
+And it also works for 15 and 21.
 
 
 
+### Hakank's prime sieve
 
-
-
+For how Hakank's `primes_to_n_sieve2` works (`p:{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]}`) go [here](link).
 
 
 
