@@ -134,10 +134,23 @@ Finally take those ones, map (`&`) them to the location in `!10`, and sum (`+/`)
 All that's left is the requirement to include 5 and then expand from `!10` to `!1000`. For this we have to go back a few steps to add each (`:`).
 
 ```{}
+  (!10)!/:3 5
+(0 1 2 0 1 2 0 1 2 0
+ 0 1 2 3 4 0 1 2 3 4)
+```
+
+Then make the output binary
+
+```
   ~(!10)!/:3 5
 (1 0 0 1 0 0 1 0 0 1
  1 0 0 0 0 1 0 0 0 0)
- 
+ ```
+
+Combine, and then where `&` and then, again sum `+/`
+
+ ```
+
   ~&/(!10)!/:3 5
 1 0 0 1 0 1 1 0 0 1
 
@@ -147,6 +160,8 @@ All that's left is the requirement to include 5 and then expand from `!10` to `!
   +/&~&/(!10)!/:3 5
 23
 ```
+
+Now with `!1000`
 
 ```{}
   +/&~&/(!1000)!/:3 5
