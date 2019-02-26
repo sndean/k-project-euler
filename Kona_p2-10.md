@@ -8,16 +8,17 @@
 > By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
 
+
 ## Kona
 
-First we have to find a way to obtain the Fibonacci sequence. Let's see how to obtain the first 10 terms
+First, find a way to obtain the Fibonacci sequence. Let's see how to obtain the first 10 terms
 
 ```
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
 ```
 
-To break that down, we need to be able to sum two numbers and we know the sequence we want starts with `1, 2`. First, obtain the last two numbers
+To break that down, we need to be able to sum two numbers and we know the sequence we want starts with `1, 2`. Obtain the last two numbers
 
 ```
   {-2#x} 1 2 3
@@ -67,6 +68,8 @@ We need the term that's the term immediately prior to that which is over 4 milli
 Next we want all the terms under the one that's `>4e6`.
 You can make provide a binary "`1` = keep going, `0` = stop" with `>`. 
 
+Try it using the Fibonacci sequence (`1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...`) to see if it'll stop (`0`) when the next value is 55
+
 ```  
   {55>+/-2#x} 1 2 3 5 8 13
 1
@@ -75,6 +78,8 @@ You can make provide a binary "`1` = keep going, `0` = stop" with `>`.
   {55>+/-2#x} 1 2 3 5 8 13 21 34
 0
 ```
+
+Now you can put that in front of the `{x,+/-2#x}/1` function, telling it to continue doing until 0: "1, 1, 1, ..., 0"
 
 ```{}
   (4e6>+/-2#){x,+/-2#x}/1
@@ -87,9 +92,11 @@ Now let's find the even-valued terms. Use modulus `!` and not `~`, where if 1 is
 
 ```
   {~x!2} 10
-1
+1                    / Yes
   {~x!2} 11
-0
+0                    / No
+  {~x!2} (!10)   
+1 0 1 0 1 0 1 0 1 0  / Of course they simply alternate
 ```
 
 Then obtain the index of the list with where `&`.
@@ -109,7 +116,7 @@ And find the corresponding spot in `x` with at `@`.
 2 8 34 144 610 2584 10946 46368 196418 832040 3524578
 ```
 
-The main interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples.
+The main interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples
 
 ```{}
   {x@1} 4 2 1 9
@@ -120,13 +127,26 @@ The main interesting thing there is the `@` verb which is the dyadic `at`, which
 ,2
 ```
 
+And, that you can continue chaining functions together, such as pulling out those divisible by 10 from the result with `{x@&~x!10}`
 
+```
+  {x@&~x!10} {x@&~x!2} (4e6>+/-2#){x,+/-2#x}/1
+610 832040
+```
+
+
+
+(Back to the problem) 
 Finally, all we have to do is sum (`+/`).
 
 ```{}
   +/{x@&~x!2}(4e6>+/-2#){x,+/-2#x}/1
 4613732
 ```
+
+
+
+
 
 
 
