@@ -53,6 +53,46 @@ If true, then the first position `1`, else `0`. This means, for `primes_to_n_sie
 2 3 5
 ```
 
+## http://www.nsl.com/k/sieves.k
+
+From arthur whitney 22.8.1998 (http://www.kx.com/listbox/k/msg00815.html)
+
+
+all x take each 1 min enum each y
+```
+s0:{&/x#'1&!:'y}
+```
+x 1's at y multiples (y times enum each ceiling x div y) get 0
+```
+s1:{@[x#1;y*!:'-_-x%y;:;0]}
+```
+
+/ iterate for linear space
+```
+s2:{(x#1){x[y*!-_-(#x)%y]:0;x}/y}
+
+s0[10;2 3] / sieve !10 with 2 3
+```
+
+/ primes less than n with sieve s
+```
+p:{[s;n]:[n<4;,2;r,1_&s[n]r:_f[s]@-_-_sqrt n]}
+```
+
+sitte: double the speed by not testing even numbers:
+every 3rd, fifth, seventh odd number not prime.
+
+
+```
+r:p[s0;32]
+\t do[1000;s0[1000;r]]
+\t do[1000;s1[1000;r]]
+\t do[1000;s2[1000;r]]
+
+\t p[s1;100000]
+\t p[s2;100000]
+```
+
 
 
 
