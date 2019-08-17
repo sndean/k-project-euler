@@ -2,12 +2,12 @@
 
 ***
 
-*WARNING - This contains answers to [Project Euler problems](https://projecteuler.net/)).*
+*WARNING - This contains answers to [Project Euler problems](https://projecteuler.net/).*
 
 
 ***
 
-Solutions **and explanations** to the first 100 Project Euler problems in K (Kona (a K3/K4 dialect), and the K6 dialect and K4 whenever I can).
+Solutions *and explanations* to the first 100 Project Euler problems in K (Kona (a K3/K4 dialect), and the K6 dialect and K4 whenever I can).
 
 
 #### Kona
@@ -61,8 +61,7 @@ K4 comes with the download obtainable from the [Kx website](https://kx.com/downl
 
 ***
 
-I'm posting answers here not because it's valuable for me to have a place to post answers themselves, but because it's valuable to coherently write out the descriptions of the solutions, which I'll try to do for every problem. Beyond this, I figure K programming languages are obscure enough for it to be unlikely that anyone would stumble upon this and have unwanted exposure to to answers (it would seem different to me if this were "Project Euler with Python"). Some of the code comes from Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), ngn's gitlab [page](https://github.com/ngn/k), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the interwebs. I've attempted to expand and improve on all of the solutions and explain how they work in terms of Kona, K6, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
-
+Some of the code comes from Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf), ngn's gitlab [page](https://github.com/ngn/k), and Hakank's K/Kona [page](http://www.hakank.org/k/). As far as I can tell, the K4 and Q solutions are more or less absent from the internet. I've attempted to expand and improve on all of the solutions and explain how they work in terms of Kona, K6, and K4. ngn's work is probably closest to working with Whitney's K6 binary, but most of it doesn't. 
 
 
 
