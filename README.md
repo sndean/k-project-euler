@@ -2,7 +2,7 @@
 
 ***
 
-*WARNING - This contains "spoilers" (a.k.a. answers to [Project Euler problems](https://projecteuler.net/)). Close this if you wish to solve the problems yourself. Beyond that, this contains some of the thought process behind each problem, which too may be something you wish to avoid.*
+*WARNING - This contains answers to [Project Euler problems](https://projecteuler.net/)).*
 
 
 ***
