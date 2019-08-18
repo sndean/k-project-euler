@@ -7,7 +7,7 @@
 
 ***
 
-Solutions *and explanations* to the first 50 Project Euler problems in K (Kona (a K3/K4 dialect), and the K6 dialect and K4 whenever I can).
+Solutions *and explanations* to the first 50 Project Euler problems in K (Kona [a K3/K4 dialect], and the K6 dialect, K4 and K7, whenever I can.)
 
 
 #### Kona
