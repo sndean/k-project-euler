@@ -2,12 +2,43 @@
 
 ***
 
-*WARNING - This contains answers to [Project Euler problems](https://projecteuler.net/).*
-
+Some answers to [Project Euler problems](https://projecteuler.net/).
 
 ***
 
 Solutions *and explanations* to the first 50 Project Euler problems in K (Kona [a K3/K4 dialect], and the K6 dialect, K4 and K7, whenever I can.)
+
+
+#### K7 
+
+K7 is made available by [Shakti](https://shakti.com/), with a good tutorial found [here](https://shakti.com/tutorial/). 
+
+To install you need to have Anaconda / Miniconda, doing something like this:
+
+```
+conda create -n shakti python=3.7
+source activate shakti
+conda install -c shaktidb shakti
+conda install -c shaktidb shakti-python
+conda install jupyter
+python -m ipykernel install --user --name shakti --display-name "shakti"
+```
+
+(The jupyter steps aren't really necessary.) Then, you can find the `./k` file at:
+
+```
+$ miniconda3/envs/shakti/bin/k
+2019-05-24 16:37:43 12core 1gb avx2 © shakti m2.0 test
+```
+
+So now you'll have access to K7 in your terminal if you do something like:
+
+```
+alias k7='rlwrap -r /Users/sdean/miniconda3/envs/shakti/bin/k'
+```
+
+Where `rlwrap -r` is needed to use the up and down arrows in K7. Installed by doing `brew install rlwrap` on macOS. [rlwrap man page](https://linux.die.net/man/1/rlwrap).
+
 
 
 #### Kona
