@@ -165,7 +165,7 @@ Which isn't right... So, we found a better way, but maybe we need an _even bette
 
 Taking 20 as our example, we know the LCM must be divisible by every prime `<= 20`. In this case those primes are 2, 3, 5, 7, 11, 13, 17, and 19.
 
-Now, using the greatest exponent of each prime, multiply them together as: $2^4 \times 3^2 \times 5 \times 7 \times 11 \times 13 \times 17 \times 19 = 232792560$. Here, we can use the built-in `_log` function to determine the exponent of the prime, `p`, as `log(20)/log(p)` by passing through the primes.
+Now, using the greatest exponent of each prime, multiply them together as: 2<sup>4</sup> x 3<sup>2</sup> x 5 x 7 x 11 x 13 x 17 x 19 = 232792560. Here, we can use the built-in `_log` function to determine the exponent of the prime, `p`, as `log(20)/log(p)` by passing through the primes.
 
 ```{}
   p:2_&{&/x!'2_!x}'!:
