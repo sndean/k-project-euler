@@ -1,3 +1,87 @@
+# 1-10
+
+## Problem 1
+
+> If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+>
+> Find the sum of all the multiples of 3 or 5 below 1000.
+
+First, find the modulus for the list of numbers < 10
+
+```{}
+  !10
+0 1 2 3 4 5 6 7 8 9
+```
+
+This is possibly immediately confusing since this uses both the monadic and dyadic `!`, enumerating numbers under 10, then finding the `mod` of those numbers (e.g., where `5!3` yields `2`).
+
+```{}
+  (!10)!3
+0 1 2 0 1 2 0 1 2 0
+```
+
+
+
+Next, take the numbers that multiples, (`mod` = 0):
+
+```{}
+  ~(!10)!/3
+1 0 0 1 0 0 1 0 0 1
+```
+
+Finally take those ones, map (`&`) them to the location in `!10`, and sum (`+/`):
+
+```{}
+  &~(!10)!/3
+0 3 6 9
+
+  +/&~(!10)!/3
+18
+```
+
+All that's left is the requirement to include 5 and then expand from `!10` to `!1000`. For this we have to go back a few steps to add each (`:`).
+
+```{}
+  (!10)!/:3 5
+(0 1 2 0 1 2 0 1 2 0
+ 0 1 2 3 4 0 1 2 3 4)
+```
+
+Then make the output binary
+
+```
+  ~(!10)!/:3 5
+(1 0 0 1 0 0 1 0 0 1
+ 1 0 0 0 0 1 0 0 0 0)
+ ```
+
+Combine, and then where `&` and then, again sum `+/`
+
+ ```
+
+  ~&/(!10)!/:3 5
+1 0 0 1 0 1 1 0 0 1
+
+  &~&/(!10)!/:3 5
+0 3 5 6 9
+
+  +/&~&/(!10)!/:3 5
+23
+```
+
+Now with `!1000`
+
+```{}
+  +/&~&/(!1000)!/:3 5
+233168
+```
+
+Or with `1e3`
+
+```
+  +/&~&/(!1e3)!/:3 5
+233168
+```
 
 # Problem 2
 
@@ -8,18 +92,28 @@
 > By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
 
+
 ## Kona
 
-First we have to find a way to obtain the Fibonacci sequence. Let's see how we obtain the first 10 terms:
+First, find a way to obtain the Fibonacci sequence. Let's see how to obtain the first 10 terms
 
-```{}
+```
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
 ```
 
-So let's break that down. We need to be able to sum two numbers and we know the sequence we want starts with `1, 2`:
+To break that down, we need to be able to sum two numbers and we know the sequence we want starts with `1, 2`. Obtain the last two numbers
 
-```{}
+```
+  {-2#x} 1 2 3
+2 3
+  {-2#x} 4 5 6
+5 6
+```
+
+Then `+/`
+
+```
   {+/-2#x} 1 2
 3
   {+/-2#x} 2 3
@@ -30,9 +124,9 @@ So let's break that down. We need to be able to sum two numbers and we know the 
 13
 ```
 
-So that seems to work correctly. Next, we need to join the result to the input. We can do that using join (`,`):
+So that seems to work correctly. Next, we need to join the result to the input. We can do that using join (`,`)
 
-```{}
+```
   {x,+/-2#x} 5 8
 5 8 13
 ```
@@ -42,9 +136,11 @@ Next we want to apply this `n` times. For this, we can use the over monad `/` wh
 ```{}
   9 {x,+/-2#x}/1
 1 2 3 5 8 13 21 34 55 89
+  10 {x,+/-2#x}/1
+1 2 3 5 8 13 21 34 55 89 144
 ```
 
-Now that we have that, the rest is relatively simple:
+Now that we have that, the rest is relatively simple.
 
 We need the term that's the term immediately prior to that which is over 4 million. First, I should point out that in Kona you can abbrevate large numbers with scientific notation, so `4000000` becomes `4e6`.
 
@@ -53,7 +149,21 @@ We need the term that's the term immediately prior to that which is over 4 milli
 1
 ```
 
-Next we want all the terms under the one that's `>4e6`:
+Next we want all the terms under the one that's `>4e6`.
+You can make provide a binary "`1` = keep going, `0` = stop" with `>`. 
+
+Try it using the Fibonacci sequence (`1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...`) to see if it'll stop (`0`) when the next value is 55
+
+```  
+  {55>+/-2#x} 1 2 3 5 8 13
+1
+  {55>+/-2#x} 1 2 3 5 8 13 21
+1
+  {55>+/-2#x} 1 2 3 5 8 13 21 34
+0
+```
+
+Now you can put that in front of the `{x,+/-2#x}/1` function, telling it to continue doing until 0: "1, 1, 1, ..., 0"
 
 ```{}
   (4e6>+/-2#){x,+/-2#x}/1
@@ -62,31 +172,56 @@ Next we want all the terms under the one that's `>4e6`:
 514229 832040 1346269 2178309 3524578
 ```
 
-Now let's find the even-valued terms:
+Now let's find the even-valued terms. Use modulus `!` and not `~`, where if 1 is left after mod 2, it's odd, so *don't* take that number.
+
+```
+  {~x!2} 10
+1                    / Yes
+  {~x!2} 11
+0                    / No
+  {~x!2} (!10)   
+1 0 1 0 1 0 1 0 1 0  / Of course they simply alternate
+```
+
+Then obtain the index of the list with where `&`.
 
 ```{}
   {~x!2} (4e6>+/-2#){x,+/-2#x}/1
 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1
   {&~x!2} (4e6>+/-2#){x,+/-2#x}/1
 1 4 7 10 13 16 19 22 25 28 31
+```
+
+And find the corresponding spot in `x` with at `@`.
+
+```
+
   {x@&~x!2} (4e6>+/-2#){x,+/-2#x}/1
 2 8 34 144 610 2584 10946 46368 196418 832040 3524578
 ```
 
-The only interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples:
+The main interesting thing there is the `@` verb which is the dyadic `at`, which pulls the value from x at indices y. Some examples
 
 ```{}
-  {x@ 1 3} 4 2 1 9
-2 9
-  {x@&x=3} 4 2 1 9
-!0
+  {x@1} 4 2 1 9
+2
+  {&x=2} 4 2 1 9
+,1
   {x@&x=2} 4 2 1 9
 ,2
 ```
 
-(Remember that Kona is 0 indexed.)
+And, that you can continue chaining functions together, such as pulling out those divisible by 10 from the result with `{x@&~x!10}`
 
-Finally, all we have to do is sum (`+/`):
+```
+  {x@&~x!10} {x@&~x!2} (4e6>+/-2#){x,+/-2#x}/1
+610 832040
+```
+
+
+
+(Back to the problem) 
+Finally, all we have to do is sum (`+/`).
 
 ```{}
   +/{x@&~x!2}(4e6>+/-2#){x,+/-2#x}/1
@@ -97,27 +232,10 @@ Finally, all we have to do is sum (`+/`):
 
 
 
-## k4
-
-The k4 code is identical to the one for Kona, except, again the `mod:{x-y*x div y}` function appears to be needed:
-
-```{}
-mod:{x-y*x div y}
-  +/{x@&~x mod/ 2}(4e6>+/-2#){x,+/-2#x}/1
-4613732
-```
 
 
 
 
-## Q
-
-The Q code is easily translatable from the k4 code, where `sum`, `where`, and `not` are added as replacements:
-
-```{}
-  sum {x where not x mod/ 2}(4e6> sum -2#){x, sum -2#x}/1
-4613732
-```
 
 
 
@@ -139,14 +257,15 @@ The Q code is easily translatable from the k4 code, where `sum`, `where`, and `n
 
 ## Kona
 
-Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf) has a solution that is sort of a hack that doesn't generalize well (e.g., doesn't work for 15), but it works for 600851475143:
+Kona's Project Euler [page](https://github.com/kevinlawler/kona/wiki/Project-Euler-Code-Golf) has a solution that is sort of a hack that doesn't generalize well (e.g., doesn't work for 15, 21, and many of others), but it works for 600851475143:
 
 
 ```{}
   |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})600851475143
 6857
-
   |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})15
+3
+  |/d@&&/'2_'f'd:&~(f:{x!'!1+_sqrt x})21
 3
 ```
 
@@ -170,7 +289,7 @@ Using this large list, we can run mod eachright (`!/:`) of our test number again
 1 0 0 1 4 2 15 15 15 15 15 15 15 15 15 15 15 ...
 ```
 
-Next, put that in a function and add the not where at code that we used earlier in front:
+Next, put that in a function and add the not-where-at (`x@&~`) code that we used in Problem 2
 
 ```{}
   {x@&~15!/:x}p 10000
@@ -180,55 +299,32 @@ Next, put that in a function and add the not where at code that we used earlier 
 Finally, just take the highest value (`|/`):
 
 ```{}
-  {|/x@&~15!/:x}p 10000
+  |/{x@&~15!/:x}p 10000
 5
 ```
 
 And this solution is generalizable up to large values:
 
-```{}
+```
   p:{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]}
-  {|/x@&~600851475143!/:x}p 10000
+  |/{x@&~600851475143!/:x}p 10000
 6857
 ```
 
 or on one line:
 
 ```{}
-  {|/x@&~600851475143!/:x}{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]} 10000
+  |/{x@&~600851475143!/:x}{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]} 10000
 6857
 ```
 
+And it also works for 15 and 21.
 
 
 
+### Hakank's prime sieve
 
-## k4
-
-### TODO
-
-```{}
-
-```
-
-
-## Q
-
-For Q, the hardest part is simply translating k code to the words of Q, which I used code from [Ryan Hamilton's Kdb+ Database Examples](https://github.com/timeseries/kdb/blob/master/qunit/math.q), a translation of `p` from earlier. After that, translating the rest was very simple:
-
-
-```{}
-  p:{$[x<4;enlist 2;r,1_where not any x#'not til each r:.z.s ceiling sqrt x]}
-  {max x where not 15 mod x} p 10000
-5
-  {max x where not 600851475143 mod x} p 10000
-6857
-```
-
-
-
-
-
+For how Hakank's `primes_to_n_sieve2` works (`p:{:[x<4;,2;r,1_&~|/x#'~!:'r:_f[_-_-_sqrt x]]}`) go [here](link).
 
 
 
@@ -363,63 +459,6 @@ Finally, let's remove the unnecessary parentheses and scale it up to 3-digit num
 It's a little slow, but it works.
 
 
-
-
-## k4
-
-The Kona answer works just fine in k4:
-
-```{}
-  |/b@&{x~|x}'$b:,/a*/:a:!1000
-906609
-```
-
-
-
-## Q
-
-Translating the Kona and k4 answer to Q had some hangups. First, the essential idea was identical and worked fine, including reversing and matching strings:
-
-```{}
-  "100" ~ reverse "100"
-0b
-  "101" ~ reverse "101"
-1b
-```
-
-However, whereas casting integers to strings in Kona and k4 creates a easy-to-work-with column vector, things work a bit differently when using `string`, meaning `raze` is needed:
-
-```{}
-  string a*/:(a:til 10)
-,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0" ,"0"
-,"0" ,"1" ,"2" ,"3" ,"4" ,"5" ,"6" ,"7" ,"8" ,"9"
-,"0" ,"2" ,"4" ,"6" ,"8" "10" "12" "14" "16" "18"
-,"0" ,"3" ,"6" ,"9" "12" "15" "18" "21" "24" "27"
-,"0" ,"4" ,"8" "12" "16" "20" "24" "28" "32" "36"
-,"0" ,"5" "10" "15" "20" "25" "30" "35" "40" "45"
-,"0" ,"6" "12" "18" "24" "30" "36" "42" "48" "54"
-,"0" ,"7" "14" "21" "28" "35" "42" "49" "56" "63"
-,"0" ,"8" "16" "24" "32" "40" "48" "56" "64" "72"
-,"0" ,"9" "18" "27" "36" "45" "54" "63" "72" "81"
-
-
-  raze a*/:(a:til 1000)
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0..
-  string raze a*/:(a:til 1000)
-,"0"
-,"0"
-,"0"
-,"0"
-,"0"
-..
-```
-
-After that, the match and `reverse` function along with `where` and `max` are very straightforward 
-
-```{}
-  max b where {x ~ reverse x} each string b:raze a*/:(a:til 1000)
-906609
-```
 
 
 
@@ -627,22 +666,6 @@ In this function `{:[~x!2; x*2; 1;!x;]}`, the condition is `~x!2`, so if the inp
 
 
 
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
-
-
 
 
 
@@ -699,21 +722,6 @@ In this function `{:[~x!2; x*2; 1;!x;]}`, the condition is `~x!2`, so if the inp
   {_(_sqr+/x)-+/x^2}1+!100
 25164150
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
 
 
 
@@ -822,20 +830,6 @@ The [Sieve of Atkin](https://en.wikipedia.org/wiki/Sieve_of_Atkin) is supposeedl
 
 
 
-
-
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
--1+last{if[all 0<x[1]mod/:2+til floor[sqrt x 1]-1;x[0]+:1];x[1]+:1;x}/[{x[0]<10001};(0;2)]
-```
 
 
 
@@ -1018,18 +1012,6 @@ There's probably a better way to implement it, but if you time the second versio
 
 
 
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
 
 
 
@@ -1084,24 +1066,8 @@ There's probably a better way to implement it, but if you time the second versio
 ## Kona
 
 ```{}
-
+*/_*c@&1000=+/'c:b,'(_sqrt+/)'b*b:,/a,/:\:a:!500
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
-
-
-
 
 
 
@@ -1155,16 +1121,3 @@ There's probably a better way to implement it, but if you time the second versio
 ```{}
 p:{2_&{:[x@y;x&@[1,-1_ z#(1_ y#1),0;y;:;1];x]}/[x#1;2_! __ceil _sqrt x;x]};+/p@_2e6	
 ```
-
-## k4
-
-```{}
-
-```
-
-## Q
-
-```{}
-
-```
-
