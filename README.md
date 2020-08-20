@@ -1,4 +1,4 @@
-# Project Euler 50 in K
+# Project Euler in K
 
 ---
 
